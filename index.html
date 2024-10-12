@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Links and Programs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-section, .output-section {
+            margin: 20px 0;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Upload Links and Programs</h1>
+        
+        <!-- Section to input new links/programs -->
+        <div class="input-section">
+            <h2>Add a Link or Program</h2>
+            <input type="text" id="linkTitle" placeholder="Enter link/program title" /><br /><br />
+            <textarea id="linkCode" placeholder="Enter the link or program code here"></textarea><br /><br />
+            <button onclick="addLink()">Add</button>
+        </div>
+        
+        <!-- Section to display uploaded links/programs -->
+        <div class="output-section">
+            <h2>Uploaded Links and Programs</h2>
+            <ul id="linkList"></ul>
+        </div>
+    </div>
+
+    <script>
+        function addLink() {
+            // Get the input values
+            const title = document.getElementById('linkTitle').value;
+            const code = document.getElementById('linkCode').value;
+            
+            // If both fields are not empty, proceed
+            if (title && code) {
+                const list = document.getElementById('linkList');
+                
+                // Create a new list item
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${title}:</strong> <pre>${code}</pre>`;
+                
+                // Append to the list
+                list.appendChild(li);
+                
+                // Clear the input fields
+                document.getElementById('linkTitle').value = '';
+                document.getElementById('linkCode').value = '';
+            } else {
+                alert('Please fill in both the title and the link/program code!');
+            }
+        }
+    </script>
+
+</body>
+</html>
