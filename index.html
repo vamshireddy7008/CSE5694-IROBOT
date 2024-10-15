@@ -40,48 +40,13 @@
 <body>
 
     <div class="container">
-        <h1>Upload Links and Programs</h1>
+        <h1>CSE5694: Robotics & AI</h1>
         
         <!-- Section to input new links/programs -->
         <div class="input-section">
-            <h2>Add a Link or Program</h2>
-            <input type="text" id="linkTitle" placeholder="Enter link/program title" /><br /><br />
-            <textarea id="linkCode" placeholder="Enter the link or program code here"></textarea><br /><br />
-            <button onclick="addLink()">Add</button>
-        </div>
-        
-        <!-- Section to display uploaded links/programs -->
-        <div class="output-section">
-            <h2>Uploaded Links and Programs</h2>
-            <ul id="linkList"></ul>
+            <h2>Project 1: Phi Duong, Vamshi Reddy, Pavan Kalyan</h2>
+	    <a href="CSE5694-IROBOT/irobot_door_sensor/dist">irobot_api.exe</a>
         </div>
     </div>
-
-    <script>
-        function addLink() {
-            // Get the input values
-            const title = document.getElementById('linkTitle').value;
-            const code = document.getElementById('linkCode').value;
-            
-            // If both fields are not empty, proceed
-            if (title && code) {
-                const list = document.getElementById('linkList');
-                
-                // Create a new list item
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${title}:</strong> <pre>${code}</pre>`;
-                
-                // Append to the list
-                list.appendChild(li);
-                
-                // Clear the input fields
-                document.getElementById('linkTitle').value = '';
-                document.getElementById('linkCode').value = '';
-            } else {
-                alert('Please fill in both the title and the link/program code!');
-            }
-        }
-    </script>
-
 </body>
 </html>
