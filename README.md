@@ -13,7 +13,6 @@ Each node in the Bayesian Network has a corresponding Conditional Probability Di
 
 In our project, we utilize a Bayesian Network for decision-making in a robot that must navigate and interact with its environment. Specifically, the Bayesian Network helps the robot determine whether it has just passed a door and calculate its current distance from the wall, based on sensor data.
 
-
 ## Step-by-Step Details of How the Network is Used on the Robot
 
 Sensor Data Collection:
@@ -59,7 +58,7 @@ graph TD;
 ```
 
 ## CPT Tables
-after gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.
+After gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.
 
 **Bump**
 | Condition | P(B) |
@@ -100,4 +99,4 @@ Bayesian Networks are a powerful tool for representing uncertain knowledge in an
 
 Conclusion
 
-Bayesian Networks provide a versatile and effective method for modeling and reasoning about uncertainty. By combining data with domain knowledge, they facilitate complex decision-making processes and offer insights into systems characterized by interdependent variables. In our robotics project, the Bayesian Network enables the robot to navigate effectively by integrating sensor data and making informed decisions. Despite challenges such as inference complexity and structure learning, their advantages in handling uncertainty, modular representation, graphical clarity, and the ability to integrate expert knowledge make them an indispensable tool in modern artificial intelligence and robotics.
+Bayesian Networks provide a versatile and effective method for modeling and reasoning about uncertainty. By combining data with domain knowledge, they facilitate complex decision-making processes and offer insights into systems characterized by interdependent variables. In our robotics project, the Bayesian Network enables the robot to navigate effectively by integrating sensor data and making informed decisions. Despite challenges such as inference complexity and structure learning, their advantages in handling uncertainty, modular representation, graphical clarity, and the ability to integrate expert knowledge make them an indispensable tool in modern artificial intelligence and robotics.
