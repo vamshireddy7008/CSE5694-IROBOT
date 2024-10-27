@@ -98,7 +98,7 @@
         Graph Representation of the Bayesian Network
         </h3>
 
-        <img src="/data/Bayesian Network.png" alt="lasagna">
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/Bayesian%20Network.png" alt="Bayesian Network">
 
         <h1>Summary of the Code</h1>
 
@@ -108,53 +108,14 @@
         Network Structure Definition: The graph structure of the Bayesian Network is defined using Python libraries. The nodes and edges are specified to represent the relationships between sensor readings and robot actions. Conditional Probability Tables (CPTs): The CPDs for each node are defined based on prior data or expert knowledge. These CPTs quantify how likely each state is given its parent nodes. For example, the probability of detecting a door given the sensor readings. The graph is inverted into an Evaluation tree that the robot can read through and process its prediction
         </h3>
 
-        <!--```mermaid
-        graph TD;
-            Bump->IR_Sensor_not_B;
-            IR_Sensor_not_B->Angle_not_B;
-            Bump->IR_Sensor_B;
-            IR_Sensor_B->Angle_B;
-        ```-->
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/evalutation%20tree.png" alt="Evalutaion Tree">
 
         <h1>CPT Tables</h1>
         <h3>
         after gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.
         </h3>
 
-        <!--<h2>Bump</h2>
-        | Condition | P(B) |
-        | :---: | :---: |
-        | T | 0.067 | 
-        | F | 0.933 |
-
-        <h2>IR Sensor</h2>
-        P(!B)
-        | P(D) | mean | std dev | P(IR Sensor)|
-        | :---: | :---: | :---: | :---: |
-        | T | 134 | 54.86 | 0.413 |
-        | F | 324.7 | 200.99 | 0.587 |
-
-        <h3>P(B)</h3>
-        | P(D) | mean | std dev | P(IR Sensor)|
-        | :---: | :---: | :---: | :---: |
-        | T | 172.125 | 97.2 | 0.4 |
-        | F | 405.41 | 391.14 | 0.6 |
-
-
-        <h2>Gyrscope</h2>
-        This is based on the angle fluctuations of the robot as it turns
-
-        <h3>P(!B)</h3>
-        | P(D) | mean | std dev | P(IR Sensor)|
-        | :---: | :---: | :---: | :---: |
-        | T | 1.692 | 1.378 | 0.413 |
-        | F | 1.608 | 1.227 | 0.587 |
-
-        <h3>P(B)</h3>
-        | P(D) | mean | std dev | P(IR Sensor)|
-        | :---: | :---: | :---: | :---: |
-        | T | 0.475 | 0.173 | 0.4 |
-        | F | -0.75 | 0.225 | 0.6 |-->
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/cpt%20table.png" alt="CPT Tables">
 
         <h3>
         Bayesian Networks are a powerful tool for representing uncertain knowledge in an intuitive graphical form and performing probabilistic reasoning effectively. They combine graph theory and probability theory to create a flexible and robust framework for understanding complex systems.
