@@ -52,10 +52,10 @@ Network Structure Definition: The graph structure of the Bayesian Network is def
 
 ```mermaid
 graph TD;
-    Bump-->IR_Sensor_P(!B);
-    IR_Sensor_P(!B)-->Angle_P(!B);
-    Bump-->IR_Sensor_P(B);
-    IR_Sensor_P(B)-->Angle_P(B);
+    Bump-->IR_Sensor_not_B;
+    IR_Sensor_not_B-->Angle_not_B;
+    Bump-->IR_Sensor_B;
+    IR_Sensor_B-->Angle;
 ```
 
 ## CPT Tables
