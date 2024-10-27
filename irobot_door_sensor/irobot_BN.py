@@ -72,7 +72,7 @@ class IrobotNetwork:
         'wheel':     Node('wheel', Normal_Distribtion(1.692, 1.378, 0.413),  Normal_Distribtion(1.608, 1.227, 0.587), ["scanner"]),
         'scanner_b': Node('scanner_b', Normal_Distribtion(172.125, 97.2, 0.4),  Normal_Distribtion(405.41, 391.14, 0.6), []),
         'wheel_b':   Node('wheel_b', Normal_Distribtion(0.475, 0.173, 0.4),  Normal_Distribtion(-0.75, 0.225, 0.6), ["scanner_b"]),
-        'bump':      Node('bump', Normal_Distribtion(0, 0, 0.438), Normal_Distribtion(0, 0, 0.438), ["wheel_b","wheel"], "binary")
+        'bump':      Node('bump', Normal_Distribtion(0, 0, 0.067), Normal_Distribtion(0, 0, 0.933), ["wheel_b","wheel"], "binary")
         }
         self.head = 'bump'
     
