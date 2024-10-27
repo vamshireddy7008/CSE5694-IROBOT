@@ -55,7 +55,7 @@ graph TD;
     Bump-->IR_Sensor_not_B;
     IR_Sensor_not_B-->Angle_not_B;
     Bump-->IR_Sensor_B;
-    IR_Sensor_B-->Angle;
+    IR_Sensor_B-->Angle_B;
 ```
 
 ## CPT Tables
