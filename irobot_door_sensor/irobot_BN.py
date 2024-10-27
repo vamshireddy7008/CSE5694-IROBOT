@@ -44,9 +44,7 @@ class Node:
         elif self.type == "normal":
             avg = sum(self.history) / self.hSize
             probEvent = self.normal_dist.get_normal_dist_probability(avg)
-            print(self.name,probEvent)
             probNotEvent = self.not_normal_dist.get_normal_dist_probability(avg)
-            print(self.name,probNotEvent)
             return probEvent / (probEvent + probNotEvent)
     
     def has_next(self):
@@ -92,12 +90,9 @@ class IrobotNetwork:
             current = self.nodes[self.head]
         else:
             current = self.nodes[nodeName]
-        print(current.name)
         if not current.has_next():
-            print("final")
             return current.get_probability()
         total = 0
         for nextNode in current.go_next():
-            print("next",nextNode)
             total += self.calculate_probability(nodeName = nextNode)
         return current.get_probability() * total

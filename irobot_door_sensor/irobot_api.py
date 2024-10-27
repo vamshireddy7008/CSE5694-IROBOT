@@ -7,6 +7,7 @@ from irobot_edu_sdk.music import Note
 from irobot_BN import IrobotNetwork as IRN
 import time
 
+print("Starting Irobot")
 ROBOT = Create3(Bluetooth())
 NETWORK = IRN()
 
