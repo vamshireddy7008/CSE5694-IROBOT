@@ -100,8 +100,16 @@
 
         <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/Bayesian%20Network.png" alt="Bayesian Network">
         <Br>
-        <h3>To calculate the probability that the robot has seen a door, we will mutliply the probabilty of the sensor seeing a door with the gyroscope turning near the door.<br>
-        P(D| IR, angle, bump) = P(D| IR, bump) * P(D| angle, bump)<Br>
+        <h3>To calculate the probability that the robot has seen a door, we will use Bayes' Theorem to calculate the probability that the robot has seen a door.<br><br>
+        P(D| S=st, A=at, B=b)<Br>
+        => P(S=st, A=at, B=b| D) * P(D)/P(S=st, A=at, B=b)                          <i>Bayes' Theorem</i><br>
+        => P(S=st, B=b| D) * P(A=at, B=b| D) * P(D)/ (P(S=st, B=b) * P(A=at, B=b))  <i>Definition of Independence</i><br>
+        where:<Br>
+        D = event that the robot has past a door.<Br>
+        S = IR sensor data.<Br>
+        A = gyroscopic sensor data.<Br>
+        B = touch/contact sensor data.<Br>
+        
         </h3>
         <h1>Summary of the Code</h1>
 

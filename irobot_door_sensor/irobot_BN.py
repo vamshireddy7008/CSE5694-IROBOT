@@ -13,7 +13,7 @@ class Normal_Distribtion:
         self.PA = PA
 
     def get_normal_dist_probability(self, val):
-        return  1/(math.sqrt(2 * math.pi *self.sd)) * np.exp(-0.5*((val - self.mean)/self.sd)**2)
+        return  1/(math.sqrt(2 * math.pi)*self.sd) * np.exp(-0.5*((val - self.mean)/self.sd)**2)
 
 class Node:
     def __init__(self, name, event_distribution, not_event_dist, nxt, type="normal"):
@@ -33,19 +33,25 @@ class Node:
             self.hSize += 1
 
     # gets the probability using Bayes' Theorem
-    def get_probability(self):
-        if self.history == []:
-            return 0
+    def get_probability(self,door=True):
+        probEvent = 0.0
         if self.type == "binary":
-            if 1 in self.history:
-                return self.normal_dist.PA
+            if door:
+                probEvent = self.normal_dist.PA
             else:
-                return self.not_normal_dist.PA
+                probEvent = self.not_normal_dist.PA
         elif self.type == "normal":
+            if self.history == []:
+                return 0
             avg = sum(self.history) / self.hSize
-            probEvent = self.normal_dist.get_normal_dist_probability(avg)
-            probNotEvent = self.not_normal_dist.get_normal_dist_probability(avg)
-            return probEvent / (probEvent + probNotEvent)
+            if door:
+                probEvent = self.normal_dist.get_normal_dist_probability(avg)
+            else:
+                probEvent = self.not_normal_dist.get_normal_dist_probability(avg)
+        
+        if probEvent == 0:
+            print(self.name + " has 0 probability")
+        return probEvent
     
     def has_next(self):
         if self.next == []:
@@ -54,23 +60,18 @@ class Node:
             return True
 
     def go_next(self):
-        if self.type == "binary":
-            if 1 in self.history:
-                return [self.next[0]] # true
-            else:
-                return [self.next[1]] # false
-        else:
-            return self.next
+        return self.next
 
 class IrobotNetwork:  
     def __init__(self):
         self.nodes = {
                     # self, name, event_distribution, not_event_dist, nxt, type="normal"
-        'scanner':   Node('scanner', Normal_Distribtion(134.58, 54.86, 0.413),  Normal_Distribtion(324.7, 200.99, 0.587), []),
+        'scanner':   Node('scanner', Normal_Distribtion(134.58, 54.86, 0.413),  Normal_Distribtion(324.7, 200.99, 0.587), ["door"]),
         'wheel':     Node('wheel', Normal_Distribtion(1.692, 1.378, 0.413),  Normal_Distribtion(1.608, 1.227, 0.587), ["scanner"]),
-        'scanner_b': Node('scanner_b', Normal_Distribtion(172.125, 97.2, 0.4),  Normal_Distribtion(405.41, 391.14, 0.6), []),
+        'scanner_b': Node('scanner_b', Normal_Distribtion(172.125, 97.2, 0.4),  Normal_Distribtion(405.41, 391.14, 0.6), ["door"]),
         'wheel_b':   Node('wheel_b', Normal_Distribtion(0.475, 0.173, 0.4),  Normal_Distribtion(-0.75, 0.225, 0.6), ["scanner_b"]),
-        'bump':      Node('bump', Normal_Distribtion(0, 0, 1), Normal_Distribtion(0, 0, 1), ["wheel_b","wheel"], "binary")
+        'bump':      Node('bump', Normal_Distribtion(0, 0, 1), Normal_Distribtion(0, 0, 1), ["wheel_b","wheel"], "binary"),
+        'door':      Node('door', Normal_Distribtion(0, 0, 0.438), Normal_Distribtion(0, 0, 0.562), [], "binary")
         }
         self.head = 'bump'
     
@@ -85,14 +86,28 @@ class IrobotNetwork:
     def add_bumper_value(self, value): # 1 true, 0 false
         self.nodes['bump'].add_element(value)
 
-    def calculate_probability(self, nodeName = 'head'):
-        if nodeName == 'head':
-            current = self.nodes[self.head]
-        else:
-            current = self.nodes[nodeName]
+    def calculate_probability(self):
+        prob = self.recursion_tree(self.head, True)
+        prob_not = self.recursion_tree(self.head, False)
+        denominator = (prob + prob_not)
+        if denominator == 0:
+            return 0
+        alpha =  1 / denominator
+        return prob * alpha
+
+    def recursion_tree(self,nodeName, door):
+        current = self.nodes[nodeName]
         if not current.has_next():
-            return current.get_probability()
+            return current.get_probability(door)
+
+        if nodeName == "bump":
+            if 1 in current.history:
+                return current.get_probability(door) * self.recursion_tree(current.go_next()[0], door)
+            else:
+                return current.get_probability(door) * self.recursion_tree(current.go_next()[1], door)
+
+        lst = current.go_next()
         total = 0
         for nextNode in current.go_next():
-            total += self.calculate_probability(nodeName = nextNode)
-        return current.get_probability() * total
+            total += self.recursion_tree(nextNode, door)
+        return total * current.get_probability(door)
