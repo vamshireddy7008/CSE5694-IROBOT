@@ -66,7 +66,8 @@ After gathering samples, we will use Conditional Probability Tables (CPT) to def
 | T | 0.067 | 
 | F | 0.933 |
 
-**IR Sensor** 
+**IR Sensor**
+
 P(!B)
 | P(D) | mean | std dev | P(IR Sensor)|
 | :---: | :---: | :---: | :---: |
@@ -80,7 +81,8 @@ P(B)
 | F | 405.41 | 391.14 | 0.6 |
 
 
-**Gyrscope** 
+**Gyrscope**
+
 This is based on the angle fluctuations of the robot as it turns
 
 P(!B)
