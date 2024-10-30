@@ -55,18 +55,18 @@ graph TD;
 ## CPT Tables
 After gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.
 
-**Door**
+**Door** 
 | Condition | P(D) |
 | :---: | :---: |
 | T | 0.438 |
 
-**Bump**
+**Bump** 
 | Condition | P(B) |
 | :---: | :---: |
 | T | 0.067 | 
 | F | 0.933 |
 
-**IR Sensor**
+**IR Sensor** 
 P(!B)
 | P(D) | mean | std dev | P(IR Sensor)|
 | :---: | :---: | :---: | :---: |
@@ -80,7 +80,7 @@ P(B)
 | F | 405.41 | 391.14 | 0.6 |
 
 
-**Gyrscope**
+**Gyrscope** 
 This is based on the angle fluctuations of the robot as it turns
 
 P(!B)
@@ -95,7 +95,7 @@ P(B)
 | T | 0.475 | 0.173 | 0.4 |
 | F | -0.75 | 0.225 | 0.6 |
 
-## Algorithm Used
+## Algorithm Used 
 
 The Bayesian Network is employed as part of a sensor fusion module that integrates information from multiple sensors to make probabilistic decisions. The key algorithms used are:
     _Belief Propagation_: Used to infer the likelihood of certain states (e.g., presence of a door) based on evidence gathered by the robot’s sensors. This allows the robot to continuously update its belief state about the environment.
