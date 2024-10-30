@@ -77,6 +77,7 @@ After gathering samples, we will use Conditional Probability Tables (CPT) to def
 | Condition | P(D) |
 | :---: | :---: |
 | T | 0.438 |
+| F | 0.662 |
 
 **Bump** 
 | Condition | P(B) |
