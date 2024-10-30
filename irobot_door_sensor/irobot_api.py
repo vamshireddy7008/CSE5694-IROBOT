@@ -30,7 +30,7 @@ def angle_difference(frst, scnd):
 
 
 async def initiate_robot():
-    global INIT_BUMP, BASE_IR_SENSOR, INIT_SPEED
+    global INIT_BUMP, BASE_IR_SENSOR, INIT_SPEED, BASE_ANGLE
     await ROBOT.set_wheel_speeds(INIT_SPEED,INIT_SPEED)
     while not INIT_BUMP:
         await ROBOT.move(5)
@@ -92,7 +92,7 @@ async def play(ROBOT):
         # the stronger the sensor value. the close the object is
         sensors = (await ROBOT.get_ir_proximity()).sensors
         #print(sensors)
-        NETWORK.add_scanner_value(sensors[3] - BASE_IR_SENSOR)
+        NETWORK.add_scanner_value(sensors[3])
         NETWORK.add_bumper_value(0)
         angleDiff = angle_difference((await ROBOT.get_position()).heading, BASE_ANGLE)
         NETWORK.add_wheel_value(angleDiff)
