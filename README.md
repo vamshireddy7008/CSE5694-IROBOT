@@ -55,7 +55,7 @@ graph TD;
 ## CPT Tables
 After gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.
 
-**DOOR**
+**Door**
 | Condition | P(D) |
 | :---: | :---: |
 | T | 0.438 |
