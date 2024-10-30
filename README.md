@@ -5,15 +5,14 @@ Phi, Vamshi, Pawan
 
 A Bayesian Network (BN), also known as a Belief Network or Probabilistic Graphical Model, is a data structure that represents the probabilistic relationships among a set of random variables. Bayesian Networks are particularly powerful for modeling uncertainty and reasoning in complex systems, making them valuable in various fields like artificial intelligence, decision support, medical diagnosis, and robotics.
 
-
 Conditional Probability Distribution (CPD):
 Each node in the Bayesian Network has a corresponding Conditional Probability Distribution (CPD) that quantifies the relationship between the variable and its parents. If a node has no parents, the CPD is simply its marginal probability. For nodes with parents, the CPD describes how the probability of the node varies depending on its parents' states.
 
-## Use of Bayesian Network in Robotics**
+## Use of Bayesian Network in Robotics
 
 In our project, we utilize a Bayesian Network for decision-making in a robot that must navigate and interact with its environment. Specifically, the Bayesian Network helps the robot determine whether it has just passed a door and calculate its current distance from the wall, based on sensor data.
 
-## Step-by-Step Details of How the Network is Used on the Robot
+## How the Network is Used on the Robot
 
 Sensor Data Collection:
 	The robot is equipped with multiple IR sensors that detect amount of infrared received bouncing light from the wall These sensors continuously collect data about the environment, such as distance to obstacles and the likelihood of detecting a door.
