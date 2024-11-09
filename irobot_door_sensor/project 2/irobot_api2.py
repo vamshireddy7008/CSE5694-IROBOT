@@ -20,6 +20,8 @@ SPEED = 10
 
 INIT_BUMP = False
 
+JUST_BUMP = False
+
 CORRECTING = False
 
 DIRECTION = 'T' # S == Stright, T == Turn
@@ -89,6 +91,24 @@ def angle_difference(frst, scnd):
     else:
         return value
 
+def write_to_xls(sensors, angle):
+    global NETWORK, JUST_BUMP, DATA_WRITE
+    prob_door = NETWORK.calculate_probability(type= 'door', time = 1)
+    prob_wall = NETWORK.calculate_probability(type= 'wall', time = 1)
+    prob_frame = NETWORK.calculate_probability(type= 'frame', time = 1)
+    if prob_door > prob_wall and prob_door > prob_frame:
+        DATA_WRITE.add_door(sensors)
+    if prob_wall > prob_door and prob_wall > prob_frame:
+        DATA_WRITE.add_wall(sensors)
+    if prob_frame > prob_door and prob_frame > prob_wall:
+        DATA_WRITE.add_frame(sensors)
+    DATA_WRITE.add_angle(angle)
+    DATA_WRITE.add_Bump(JUST_BUMP)
+    DATA_WRITE.go_next()
+    DATA_WRITE.save()
+    JUST_BUMP = False
+
+
 # intitalizes the robot to look perpendicular to the wall
 async def initiate_robot():
     global INIT_BUMP, BASE_IR_SENSOR, INIT_SPEED, BASE_ANGLE
@@ -121,10 +141,10 @@ async def fix_robot_direction():
     global INIT_BUMP
     INIT_BUMP = True
     initiate_robot()
-g
+
 @event(ROBOT.when_play)
 async def play(ROBOT):
-    global BASE_IR_SENSOR, SPEED, CORRECTING, DIRECTION
+    global BASE_IR_SENSOR, SPEED, CORRECTING, DIRECTION, JUST_BUMP, SAVE_DATA
     door_counter = 0
     prev_prob = 0
     await ROBOT.set_wheel_speeds(INIT_SPEED,INIT_SPEED)
@@ -167,13 +187,15 @@ async def play(ROBOT):
         NETWORK.add_bumper_value(0)
         angleDiff = angle_difference((await ROBOT.get_position()).heading, BASE_ANGLE)
         NETWORK.add_wheel_value(angleDiff)
+        if SAVE_DATA:
+            write_to_xls(sensors[3], angleDiff)
 
         # calculating the probability
         prob = NETWORK.calculate_probability()
         print ("probability: " + str(prob))
 
         # check if we need to readjust the robot
-        wallprob = NETWORK.calculate_probability(type ='wall', time=1)
+        wallprob = NETWORK.calculate_probability(type = 'wall', time = 1)
         if wallprob > 0.6 and ( -40 <BASE_IR_SENSOR - sensors[3] > 40 ):
             fix_robot_direction()
 
@@ -212,13 +234,14 @@ async def play(ROBOT):
 # checks if the robot bumped. readjusts the robot if needed
 @event(ROBOT.when_bumped, [True, True])
 async def bump(robot):
-    global INIT_BUMP, DIRECTION, CORRECTING, GOING_FORWARD
+    global INIT_BUMP, DIRECTION, CORRECTING, GOING_FORWARD, JUST_BUMP
     await ROBOT.stop()
     print('bump')
     await ROBOT.move(-5)
     if not INIT_BUMP:
         INIT_BUMP = True
     else:
+        JUST_BUMP = True
         CORRECTING = True
         NETWORK.add_bumper_value(1)
 
