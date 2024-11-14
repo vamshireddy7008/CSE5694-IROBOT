@@ -1,6 +1,9 @@
 # CSE5694-IROBOT
 Phi, Vamshi, Pawan
 
+### Website link
+https://vamshireddy7008.github.io/CSE5694-IROBOT/
+
 ## Bayesian Network Overview
 
 A Bayesian Network (BN), also known as a Belief Network or Probabilistic Graphical Model, is a data structure that represents the probabilistic relationships among a set of random variables. Bayesian Networks are particularly powerful for modeling uncertainty and reasoning in complex systems, making them valuable in various fields like artificial intelligence, decision support, medical diagnosis, and robotics.
