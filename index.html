@@ -61,7 +61,7 @@
     </div>
 
     <div class="Descrition">
-        <h1>Bayesian Network Overview</h1>
+        <h2>Bayesian Network Overview</h2>
 
         <h3>
             A Bayesian Network (BN), also known as a Belief Network or Probabilistic Graphical Model, is a data structure that represents the probabilistic relationships among a set of random variables. Bayesian Networks are particularly powerful for modeling uncertainty and reasoning in complex systems, making them valuable in various fields like artificial intelligence, decision support, medical diagnosis, and robotics.
@@ -69,13 +69,15 @@
             Conditional Probability Distribution (CPD):
             Each node in the Bayesian Network has a corresponding Conditional Probability Distribution  that quantifies the relationship between the variable and its parents. If a node has no parents, the CPD is simply its marginal probability. For nodes with parents, the CPD describes how the probability of the node varies depending on its parents' states.
         </h3>
-        <h1>Use of Bayesian Network in Robotics</h1>
+        <h2>Use of Bayesian Network in Robotics</h2>
 
         <h3>
             In our project, we utilize a Bayesian Network for decision-making in a robot that must navigate and interact with its environment. Specifically, the Bayesian Network helps the robot determine whether it has just passed a door and calculate its current distance from the wall, based on sensor data.
         </h3>
 
-        <h1>Step-by-Step Details of How the Network is Used on the Robot</h1>
+        <h1> Project 1 </h1>
+
+        <h2>Step-by-Step Details of How the Network is Used on the Robot</h2>
         <h3>
             Sensor Data Collection:<br>
                 The robot is equipped with multiple IR sensors that detect amount of infrared received bouncing light from the wall These sensors continuously collect data about the environment, such as distance to obstacles and the likelihood of detecting a door.<br>
@@ -95,7 +97,7 @@
 
         <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/Bayesian%20Network.png" alt="Bayesian Network"><Br>
 
-        <h1>Algorithm Used</h1>
+        <h2>Algorithm Used</h2>
         <h3>
         The Bayesian Network is employed as part of a sensor fusion module that integrates information from multiple sensors to make probabilistic decisions. The key algorithms used are:<br><br>
 
@@ -105,14 +107,17 @@
         <h3>To calculate the probability that the robot has seen a door, we will use Bayes' Theorem.<br><br>
         P(D| S=st, A=at, B=b)<Br>
         => P(S=st, A=at, B=b| D) * P(D)/P(S=st, A=at, B=b)                          <i>Bayes' Theorem</i><br>
-        => P(S=st, B=b| D) * P(A=at, B=b| D) * P(D)/ (P(S=st, B=b) * P(A=at, B=b))  <i>Definition of Independence</i><br>
+        => P(S=st, B=b| D) * P(A=at, B=b| D) * P(D)/ (P(S=st, B=b) * P(A=at, B=b))  <i>Definition of Independence</i><br><br>
+        Time is also calculated using multiple readings as the robot moves along the wall. Each timestep, the robot stores the values of the data readings at that time up to specified amount of timesteps<br><br>
+        => P(S=s<sub>t[1:n]</sub> ; B=b<sub>t[1:n]</sub>| D) * P(A=a<sub>t[1:n]</sub>; B=b<sub>t[1:n]</sub>| D)/ (P(S=s<sub>t[1:n]</sub>; B=b<sub>t[1:n]</sub>) * P(A=a<sub>t[1:n]</sub>; B=b<sub>t[1:n]</sub>))<br><br>
         where:<Br>
         D = event that the robot has past a door.<Br>
         S = IR sensor data.<Br>
         A = gyroscopic sensor data.<Br>
         B = touch/contact sensor data.<Br>
+
         </h3>
-        <h1>Summary of the Code</h1>
+        <h2>Summary of the Code</h2>
 
         <h3>
         The code for implementing the Bayesian Network in the robot involves several key components:<br>
@@ -120,11 +125,12 @@
         Network Structure Definition: The graph structure of the Bayesian Network is defined using Python libraries. The nodes and edges are specified to represent the relationships between sensor readings and robot actions. 
         Conditional Probability Tables (CPTs): The CPDs for each node are defined based on prior data or expert knowledge. These CPTs quantify how likely each state is given its parent nodes. 
         We will convert the graph into an Evaluation Tree so that the robot can use and process its prediction<br>
+        To include timesteps, the Robot will occasionally turn towards the wall at each timetep.<br>
         </h3>
 
         <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/evalutation%20tree.png" alt="Evalutaion Tree">
 
-        <h1>CPT Tables</h1>
+        <h2>CPT Tables</h2>
         <h3>
         After gathering samples, we will use Conditional Probability Tables (CPT) to define the probability that the robot has past a door.<br>
         </h3>
@@ -134,9 +140,27 @@
         <h3>
         Bayesian Networks are a powerful tool for representing uncertain knowledge in an intuitive graphical form and performing probabilistic reasoning effectively. They combine graph theory and probability theory to create a flexible and robust framework for understanding complex systems.<br>
         </h3>
-        <h2>Conclusion</h2>
+
+        <h1> Project 2 </h1>
+        <h2>Summary of the Code</h2>
         <h3>
-        Bayesian Networks provide a versatile and effective method for modeling and reasoning about uncertainty. By combining data with domain knowledge, they facilitate complex decision-making processes and offer insights into systems characterized by interdependent variables. In our robotics project, the Bayesian Network enables the robot to navigate effectively by integrating sensor data and making informed decisions. Despite challenges such as inference complexity and structure learning, their advantages in handling uncertainty, modular representation, graphical clarity, and the ability to integrate expert knowledge make them an indispensable tool in modern artificial intelligence and robotics.
+        The Robot now uses real time updates to keep itself relatively at the same position away from the door. When certain thresholds are passed, the Robot will determine if theses thresholds are cause by moving over a door.<br>
+        The Robot will now move in a constant direction facing forward towards the direction of the goal. so the CPT tables will now have to be updated to use the side sensor values.<br>
+        The CPT tables are also updated to include the frame of the door.<br>
+        </h3>
+
+        <h2>Evaluation Tree</h2>
+        <h3>
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/evalutation%20tree2.png" alt="Evalutaion Tree Project 2">
+        </h3>
+
+        <h2>CPT Tables</h2>
+        <h3>
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/cpt%20table2.png" alt="CPT Tables Project 2">
+        </h3>
+        
+        <h3>
+        <img src="https://raw.githubusercontent.com/vamshireddy7008/CSE5694-IROBOT/refs/heads/main/data/cpt%20table2.png" alt="CPT Tables 2 Project 2">
         </h3>
     </div>
 

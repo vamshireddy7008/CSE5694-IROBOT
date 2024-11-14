@@ -2,8 +2,7 @@ from sre_constants import BRANCH
 import numpy as np
 import math
 
-LIST_SIZE = 5
-
+LIST_SIZE = 10
 
 class Normal_Distribtion:
     def __init__(self, mean, stdDev, PA):
@@ -51,24 +50,24 @@ class IrobotNetwork:
         self.NetworkSet = {
             'Door_Nodes': {
             #Node(       self, name,       event_distribution,                       nxt,                 type="normal"
-            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.419)         , ["bump", "no bump"]            , "binary"),
+            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.35)          , ["bump", "no bump"]            , "binary"),
             'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)             , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
             'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)             , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
-            'scanner':   Node('scanner', Normal_Distribtion(175.4, 20, 0.419), ["wheel"]                                ),
-            'wheel':     Node('wheel'  , Normal_Distribtion(1.692, 1.378, 0.419) , []                                       ),  
-            'scanner_b': Node('scanner', Normal_Distribtion(172.125, 97.2, 0.419), ["wheel_b"]                              ),
-            'wheel_b':   Node('wheel'  , Normal_Distribtion(0.475, 0.173, 0.419) , []                                       ),
+            'scanner':   Node('scanner', Normal_Distribtion(40.615, 4, 0.3479)   , ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(-0.1, 19, 0.35)      , []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(200, 54.86, 0.35)       , ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(0.475, 0.173, 0.35)  , []                                       ),
             },
 
             'Wall_Nodes': {
             #Node(       self, name,       event_distribution,                        nxt,                 type="normal"
-            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.58)           , ["bump", "no bump"]            , "binary"),
+            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.65)           , ["bump", "no bump"]            , "binary"),
             'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
             'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
-            'scanner':   Node('scanner', Normal_Distribtion(300.815, 50.2, 0.58)  , ["wheel"]                                ),
-            'wheel':     Node('wheel'  , Normal_Distribtion(1.65, 1.22, 0.58)     , []                                       ),  
-            'scanner_b': Node('scanner', Normal_Distribtion(419, 69.3, 0.58)      , ["wheel_b"]                              ),
-            'wheel_b':   Node('wheel'  , Normal_Distribtion(0, 0.174, 0.58)       , []                                       ),
+            'scanner':   Node('scanner', Normal_Distribtion(100, 10.7, 0.65)      , ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(11.35, 0.6, 0.6479)   , []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(500, 40.3, 0.65)      , ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(0, 0.174, 0.65)       , []                                       ),
             },
 
             'Frame_Nodes': {
@@ -76,10 +75,10 @@ class IrobotNetwork:
             'head':      Node('door'   , Normal_Distribtion(0, 0, 0.042)          , ["bump"]                       , "binary"),
             'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
             'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
-            'scanner':   Node('scanner', Normal_Distribtion(1125, 157, 0.042)     , ["wheel"]                                ),
-            'wheel':     Node('wheel'  , Normal_Distribtion(-0.75, 1.549, 0.042)  , []                                       ),  
-            'scanner_b': Node('scanner', Normal_Distribtion(1885, 407, 0.042)     , ["wheel_b"]                              ),
-            'wheel_b':   Node('wheel'  , Normal_Distribtion(-1.5, 1.549, 0.042)   , []                            ),
+            'scanner':   Node('scanner', Normal_Distribtion(326, 167, 0.042)      , ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(-1.333, 17.988, 0.042), []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(1000, 307, 0.042)     , ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(-1.5, 1.549, 0.042)   , []                                       ),
             }
         }
 
@@ -89,9 +88,7 @@ class IrobotNetwork:
              'scanner': []
         }
     def get_data(self, name, time):
-        if name in self.Data:
-            if time > len(self.Data[name]):
-                return []
+        if name in self.Data and time <= len(self.Data[name]):
             return self.Data[name][:time]
         else:
             return []
@@ -112,6 +109,9 @@ class IrobotNetwork:
 
     def remove_bump(self):
         self.Data['bump'] = []
+
+    def remove_scanner(self):
+        self.Data['scanner'] = []
 
     def calculate_probability(self, type= 'door', time=LIST_SIZE):
         if time > LIST_SIZE:

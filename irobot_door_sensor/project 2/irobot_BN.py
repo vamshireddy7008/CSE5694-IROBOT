@@ -1,6 +1,5 @@
 from sre_constants import BRANCH
 import numpy as np
-import scipy.stats as stats
 import math
 
 LIST_SIZE = 5
@@ -16,38 +15,23 @@ class Normal_Distribtion:
         return  1/(math.sqrt(2 * math.pi)*self.sd) * np.exp(-0.5*((val - self.mean)/self.sd)**2)
 
 class Node:
-    def __init__(self, name, event_distribution, not_event_dist, nxt, type="normal"):
+    def __init__(self, name, event_distribution, nxt, type="normal"):
         self.name = name
         self.normal_dist = event_distribution
-        self.not_normal_dist = not_event_dist
         self.next = nxt
-        self.history = []
         self.type = type
         self.hSize = 0
 
-    def add_element(self, value):
-        self.history.insert(0, value)
-        if self.hSize == LIST_SIZE:
-            self.history.pop()
-        else:
-            self.hSize += 1
-
     # gets the probability using Bayes' Theorem
-    def get_probability(self,door=True):
+    def get_probability(self, datalist):
         probEvent = 0.0
         if self.type == "binary":
-            if door:
-                probEvent = self.normal_dist.PA
-            else:
-                probEvent = self.not_normal_dist.PA
+            probEvent = self.normal_dist.PA
         elif self.type == "normal":
-            if self.history == []:
+            if datalist == []:
                 return 0
-            avg = sum(self.history) / self.hSize
-            if door:
-                probEvent = self.normal_dist.get_normal_dist_probability(avg)
-            else:
-                probEvent = self.not_normal_dist.get_normal_dist_probability(avg)
+            avg = sum(datalist) / len(datalist)
+            probEvent = self.normal_dist.get_normal_dist_probability(avg)
         
         if probEvent == 0:
             print(self.name + " has 0 probability")
@@ -64,50 +48,104 @@ class Node:
 
 class IrobotNetwork:  
     def __init__(self):
-        self.nodes = {
-                    # self, name, event_distribution, not_event_dist, nxt, type="normal"
-        'scanner':   Node('scanner', Normal_Distribtion(134.58, 54.86, 0.413),  Normal_Distribtion(324.7, 200.99, 0.587), ["door"]),
-        'wheel':     Node('wheel', Normal_Distribtion(1.692, 1.378, 0.413),  Normal_Distribtion(1.608, 1.227, 0.587), ["scanner"]),
-        'scanner_b': Node('scanner_b', Normal_Distribtion(172.125, 97.2, 0.4),  Normal_Distribtion(405.41, 391.14, 0.6), ["door"]),
-        'wheel_b':   Node('wheel_b', Normal_Distribtion(0.475, 0.173, 0.4),  Normal_Distribtion(-0.75, 0.225, 0.6), ["scanner_b"]),
-        'bump':      Node('bump', Normal_Distribtion(0, 0, 1), Normal_Distribtion(0, 0, 1), ["wheel_b","wheel"], "binary"),
-        'door':      Node('door', Normal_Distribtion(0, 0, 0.438), Normal_Distribtion(0, 0, 0.562), [], "binary")
+        self.NetworkSet = {
+            'Door_Nodes': {
+            #Node(       self, name,       event_distribution,                       nxt,                 type="normal"
+            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.419)         , ["bump", "no bump"]            , "binary"),
+            'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)             , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
+            'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)             , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
+            'scanner':   Node('scanner', Normal_Distribtion(175.4, 20, 0.419), ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(1.692, 1.378, 0.419) , []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(172.125, 97.2, 0.419), ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(0.475, 0.173, 0.419) , []                                       ),
+            },
+
+            'Wall_Nodes': {
+            #Node(       self, name,       event_distribution,                        nxt,                 type="normal"
+            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.58)           , ["bump", "no bump"]            , "binary"),
+            'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
+            'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
+            'scanner':   Node('scanner', Normal_Distribtion(300.815, 50.2, 0.58)  , ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(1.65, 1.22, 0.58)     , []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(419, 69.3, 0.58)      , ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(0, 0.174, 0.58)       , []                                       ),
+            },
+
+            'Frame_Nodes': {
+            #Node(       self, name,       event_distribution,                        nxt,                 type="normal"
+            'head':      Node('door'   , Normal_Distribtion(0, 0, 0.042)          , ["bump"]                       , "binary"),
+            'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
+            'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
+            'scanner':   Node('scanner', Normal_Distribtion(1125, 157, 0.042)     , ["wheel"]                                ),
+            'wheel':     Node('wheel'  , Normal_Distribtion(-0.75, 1.549, 0.042)  , []                                       ),  
+            'scanner_b': Node('scanner', Normal_Distribtion(1885, 407, 0.042)     , ["wheel_b"]                              ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(-1.5, 1.549, 0.042)   , []                            ),
+            }
         }
-        self.head = 'bump'
-    
+
+        self.Data = {
+             'bump': [],
+             'wheel': [],
+             'scanner': []
+        }
+    def get_data(self, name, time):
+        if name in self.Data:
+            if time > len(self.Data[name]):
+                return []
+            return self.Data[name][:time]
+        else:
+            return []
+
+    def add_element(self, name, value):
+        self.Data[name].insert(0,value)
+        if len(self.Data[name]) > LIST_SIZE:
+            self.Data[name].pop()
+
     def add_scanner_value(self, value):
-        self.nodes['scanner'].add_element(value)
-        self.nodes['scanner_b'].add_element(value)
-    
+        self.add_element('scanner', value)
+        return []
     def add_wheel_value(self, angle):
-        self.nodes['wheel'].add_element(angle)
-        self.nodes['wheel_b'].add_element(angle)
+        self.add_element('wheel', angle)
     
-    def add_bumper_value(self, value): # 1 true, 0 false
-        self.nodes['bump'].add_element(value)
+    def add_bumper_value(self, isHit): # 1 true, 0 false
+        self.add_element('bump', isHit)
 
-    def calculate_probability(self):
-        prob = self.recursion_tree(self.head, True)
-        prob_not = self.recursion_tree(self.head, False)
-        denominator = (prob + prob_not)
-        if denominator == 0:
+    def remove_bump(self):
+        self.Data['bump'] = []
+
+    def calculate_probability(self, type= 'door', time=LIST_SIZE):
+        if time > LIST_SIZE:
+            time = LIST_SIZE
+
+        context = []
+        bump = True in self.Data['bump'][:time]
+        if bump:
+            context.append('bump')
+        else:
+            context.append('no bump')
+
+        door_prob = self.recursion_tree('Door_Nodes','head', context, time)
+        wall_prob = self.recursion_tree('Wall_Nodes','head', context, time)
+        frame_prob = self.recursion_tree('Frame_Nodes','head', context, time)
+
+        total_prob = door_prob + wall_prob + frame_prob
+        if total_prob== 0:
             return 0
-        alpha =  1 / denominator
-        return prob * alpha
+        if type == 'door':
+            return door_prob / total_prob
+        elif type == 'wall':
+            return wall_prob / total_prob
+        elif type == 'frame':    
+            return frame_prob / total_prob
 
-    def recursion_tree(self,nodeName, door):
-        current = self.nodes[nodeName]
+    def recursion_tree(self, networkName, nodeName, context, time):
+        current = self.NetworkSet[networkName][nodeName]
         if not current.has_next():
-            return current.get_probability(door)
-
-        if nodeName == "bump":
-            if 1 in current.history:
-                return current.get_probability(door) * self.recursion_tree(current.go_next()[0], door)
-            else:
-                return current.get_probability(door) * self.recursion_tree(current.go_next()[1], door)
-
-        lst = current.go_next()
+            return current.get_probability(self.get_data(current.name, time))
+        next_list = [i for i in current.go_next() if i in context]
+        if len(next_list) == 0:
+            next_list = current.go_next()
         total = 0
-        for nextNode in current.go_next():
-            total += self.recursion_tree(nextNode, door)
-        return total * current.get_probability(door)
+        for nextNode in next_list:
+            total += self.recursion_tree(networkName, nextNode, context, time)
+        return total * current.get_probability(self.get_data(current.name, time))
