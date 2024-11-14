@@ -163,7 +163,7 @@ graph TD;
 
     Wall --> No_Bump_W;
     Wall --> Bump_W;
-    Not_Bump_W --> IR_Sensor_W;
+    No_Bump_W --> IR_Sensor_W;
     IR_Sensor_W-->Angle_W;
     Bump_W-->IR_Sensor_B_W;
     IR_Sensor_B_W-->Angle_B_W;
@@ -176,9 +176,10 @@ graph TD;
     IR_Sensor_B_F-->Angle_B_F;
 ```
 
-**CPT Tables**
+## CPT Tables
 
-<ins>Conditions</ins> 
+**_Conditions_** 
+
 | Condition | Probability |
 | :---: | :---: |
 | P(Door) | 0.329 |
