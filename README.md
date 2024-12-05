@@ -99,17 +99,17 @@ graph TD;
     sd(IR Sensor)
     ad(Angle)
 
-    head-->d;
-    d-->bw;
-    d-->nbw;
+    head-->w;
+    w-->bw;
+    w-->nbw;
     nbw-->sw;
     sw-->aw;
     bw-->sbw;
     sbw-->abw;
 
-    head-->w;
-    w-->bd;
-    w-->nbd;
+    head-->d;
+    d-->bd;
+    d-->nbd;
     nbd-->sd;
     sd-->ad;
     bd-->sbd;
@@ -180,30 +180,55 @@ The CPT tables are also updated to include the frame of the door.
 **Evaluation Tree**
 ```mermaid
 graph TD;
-    Irobot --> Door;
-    Irobot --> Wall;
-    Irobot --> Frame;
+    head( )
+    d(Door)
+    w(Wall)
+    f(Frame)
 
-    Door --> No_Bump_D;
-    Door --> Bump_D;
-    No_Bump_D --> IR_Sensor_D;
-    IR_Sensor_D-->Angle_D;
-    Bump_D-->IR_Sensor_B_D;
-    IR_Sensor_B_D-->Angle_B_D;
-
-    Wall --> No_Bump_W;
-    Wall --> Bump_W;
-    No_Bump_W --> IR_Sensor_W;
-    IR_Sensor_W-->Angle_W;
-    Bump_W-->IR_Sensor_B_W;
-    IR_Sensor_B_W-->Angle_B_W;
+    bw(Bump)
+    sbw(IR Sensor)
+    abw(Angle)
+    nbw(Not Bump)
+    sw(IR Sensor)
+    aw(Angle)
     
-    Frame --> No_Bump_F;
-    Frame --> Bump_F;
-    No_Bump_F --> IR_Sensor_F;
-    IR_Sensor_F-->Angle_F;
-    Bump_F-->IR_Sensor_B_F;
-    IR_Sensor_B_F-->Angle_B_F;
+    bd(Bump)
+    sbd(IR Sensor)
+    abd(Angle)
+    nbd(Not Bump)
+    sd(IR Sensor)
+    ad(Angle)
+
+    bf(Bump)
+    sbf(IR Sensor)
+    abf(Angle)
+    nbf(Not Bump)
+    sf(IR Sensor)
+    af(Angle)
+
+    head-->w;
+    w-->bw;
+    w-->nbw;
+    nbw-->sw;
+    sw-->aw;
+    bw-->sbw;
+    sbw-->abw;
+
+    head-->d;
+    d-->bd;
+    d-->nbd;
+    nbd-->sd;
+    sd-->ad;
+    bd-->sbd;
+    sbd-->abd;
+
+    head-->f;
+    f-->bf;
+    f-->nbf;
+    nbf-->sf;
+    sf-->af;
+    bf-->sbf;
+    sbf-->abf;
 ```
 
 ## CPT Tables
