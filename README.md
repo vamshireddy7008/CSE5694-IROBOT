@@ -304,7 +304,7 @@ Gyrscope
 
 updated code to improve robot movement. robot now updates and changes its wheel speeds based on error rate changes per delta t
 
-    error = error + error(de/dt) / confidence level
+    error = (error + error(de/dt)) / confidence_level
     
 confidence level is set by the gaussian distribution based on what the robot predicts its looking at. This is set as a 95% confidence level for the gaussian network. with a large confidence level. the robot does not steer as much and approaches the value at the robot wants to stay away from the wall on the right.
 
