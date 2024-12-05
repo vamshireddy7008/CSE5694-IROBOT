@@ -64,7 +64,7 @@ class IrobotNetwork:
             'head':      Node('door'   , Normal_Distribtion(0, 0, 0.65)           , ["bump", "no bump"]            , "binary"),
             'no bump':   Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner"]                    , "binary"), # bumps will always be given so return a PA of 1
             'bump':      Node('bump'   , Normal_Distribtion(0, 0, 1)              , ["scanner_b"]                  , "binary"), # bumps will always be given so return a PA of 1
-            'scanner':   Node('scanner', Normal_Distribtion(100, 10.7, 0.65)      , ["wheel"]                                ),
+            'scanner':   Node('scanner', Normal_Distribtion(150, 25.7, 0.65)      , ["wheel"]                                ),
             'wheel':     Node('wheel'  , Normal_Distribtion(11.35, 0.6, 0.6479)   , []                                       ),  
             'scanner_b': Node('scanner', Normal_Distribtion(500, 40.3, 0.65)      , ["wheel_b"]                              ),
             'wheel_b':   Node('wheel'  , Normal_Distribtion(0, 0.174, 0.65)       , []                                       ),
