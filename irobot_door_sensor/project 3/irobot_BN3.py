@@ -67,7 +67,7 @@ class IrobotNetwork:
             'scanner':   Node('scanner', Normal_Distribtion(302.283, 85.357, 0.62), ["wheel"]                                ),
             'wheel':     Node('wheel'  , Normal_Distribtion(4.632, 4.172, 0.62)   , []                                       ),  
             'scanner_b': Node('scanner', Normal_Distribtion(730, 430.3, 0.62)     , ["wheel_b"]                              ),
-            'wheel_b':   Node('wheel'  , Normal_Distribtion(0, 0.174, 0.62)       , []                                       ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(5.3, 0.174, 0.62)       , []                                       ),
             },
 
             'Frame_Nodes': {
@@ -78,7 +78,7 @@ class IrobotNetwork:
             'scanner':   Node('scanner', Normal_Distribtion(730.09, 534.41, 0.031), ["wheel"]                                ),
             'wheel':     Node('wheel'  , Normal_Distribtion(5.968, 4.734, 0.031)  , []                                       ),  
             'scanner_b': Node('scanner', Normal_Distribtion(1000, 307, 0.031)     , ["wheel_b"]                              ),
-            'wheel_b':   Node('wheel'  , Normal_Distribtion(5.968, 3.549, 0.031)  , []                                       ),
+            'wheel_b':   Node('wheel'  , Normal_Distribtion(5.9, 3.549, 0.031)  , []                                       ),
             }
         }
 

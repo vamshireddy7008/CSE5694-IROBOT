@@ -42,8 +42,8 @@ Bayesian Network Integration:
 graph TD;
     Bump-->IR_Sensor;
     Bump-->Angle;
-    IR_Sensor-->Irobot;
-    Angle-->Irobot;
+    IR_Sensor;
+    Angle;
 ```
 
 ## Algorithm Used 
@@ -81,12 +81,39 @@ To include timesteps, the Robot will occasionally turn towards the wall at each 
 
 ```mermaid
 graph TD;
-    Bump-->IR_Sensor_not_B;
-    IR_Sensor_not_B-->Angle_not_B;
-    Angle_not_B-->Irobot;
-    Bump-->IR_Sensor_B;
-    IR_Sensor_B-->Angle_B;
-    Angle_B-->Irobot_
+    head( )
+    d(Door)
+    w(Not Door)
+
+    bw(Bump)
+    sbw(IR Sensor)
+    abw(Angle)
+    nbw(Not Bump)
+    sw(IR Sensor)
+    aw(Angle)
+    
+    bd(Bump)
+    sbd(IR Sensor)
+    abd(Angle)
+    nbd(Not Bump)
+    sd(IR Sensor)
+    ad(Angle)
+
+    head-->d;
+    d-->bw;
+    d-->nbw;
+    nbw-->sw;
+    sw-->aw;
+    bw-->sbw;
+    sbw-->abw;
+
+    head-->w;
+    w-->bd;
+    w-->nbd;
+    nbd-->sd;
+    sd-->ad;
+    bd-->sbd;
+    sbd-->abd;
 ```
 
 ## CPT Tables
@@ -245,3 +272,82 @@ Gyrscope
 | :---: | :---: | :---: |
 | T | -1.5 | 1.549 |
 | F | -1.333 | 17.988 |
+
+# Project 3
+
+## Summary of the Code
+
+updated code to improve robot movement. robot now updates and changes its wheel speeds based on error rate changes per delta t
+
+    error = error + error(de/dt) / confidence level
+    
+confidence level is set by the gaussian distribution based on what the robot predicts its looking at. This is set as a 95% confidence level for the gaussian network. with a large confidence level. the robot does not steer as much and approaches the value at the robot wants to stay away from the wall on the right.
+
+CPT tables were updated to reflect the improved AI movement.
+
+## CPT Tables
+
+**_Conditions_** 
+
+| Condition | Probability |
+| :---: | :---: |
+| P(Door) | 0.35 |
+| P(Wall) | 0.619 |
+| P(Frame) | 0.031 |
+
+**Door**
+
+| Condition | P(Bump) |
+| :---: | :---: |
+| T | 0.168 | 
+| F | 0.832 |
+
+IR Sensor
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 285 | 84.86 |
+| F | 39.368 | 21.11 |
+
+Gyrscope
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 4.533 | 3.2 |
+| F | 5.905 | 3.822 |
+
+**Wall**
+
+| Condition | P(Bump) |
+| :---: | :---: |
+| T | 0.067 | 
+| F | 0.933 |
+
+IR Sensor
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 302.283 | 85.357 |
+| F | 739 | 430.3 |
+
+Gyrscope
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 5.3 | 3.174 |
+| F | 4.632 | 4.172 |
+
+**Frame**
+
+| Condition | P(Bump) |
+| :---: | :---: |
+| T | 0.067 | 
+| F | 0.933 |
+
+IR Sensor
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 1000 | 307 |
+| F | 730.09 | 534.41 |
+
+Gyrscope
+| P(Bump) | mean | std dev |
+| :---: | :---: | :---: |
+| T | 5.968 | 4.734 |
+| F | 5.9 | 3.549 |
