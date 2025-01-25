@@ -2,7 +2,7 @@ from sre_constants import BRANCH
 import numpy as np
 import math
 
-LIST_SIZE = 10
+LIST_SIZE = 8
 
 class Normal_Distribtion:
     def __init__(self, mean, stdDev, PA):
